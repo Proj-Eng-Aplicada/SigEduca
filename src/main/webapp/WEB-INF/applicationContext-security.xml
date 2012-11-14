@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:b="http://www.springframework.org/schema/beans"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security-3.0.xsd"> 	
+
+	<http auto-config="true" access-denied-page="/acessonegado.jsf">
+	
+		<intercept-url pattern="/login.html" filters="none" />
+		<intercept-url pattern="/**" access="ROLE_USER" />
+		<form-login login-page="/login.html" always-use-default-target="false"
+			authentication-failure-url="/login.html?authfailed=true" />
+		<logout invalidate-session="true" logout-success-url="/login.html?loggedout=true"/> 
+		
+		<session-management>
+			<concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+		</session-management>
+	
+	</http>
+
+	<!-- Aqui voce pode substituir por um bean que vai no banco de dados e verificao o usuario -->
+	
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+			<user name="user1" password="pass1" authorities="ROLE_USER, ROLE_ADMIN" />
+			<user name="user2" password="pass2" authorities="ROLE_USER" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+	
+	</b:beans>
